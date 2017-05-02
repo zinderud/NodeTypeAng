@@ -1,0 +1,44 @@
+{
+  "name": "node-type-ang",
+  "version": "0.0.1",
+  "description": "node ve typescrit ve typeorm ile hızlı ve güvenilir prototip üretmek",
+  "scripts": {
+    "start": "npm run build && node ./dist/server.js",
+    "build": "npm run clean && tslint 'src/**/*.ts' --fix --force && npm run swagger-gen && npm run routes-gen && tsc && npm run copy-swagger-ui",
+    "lint": "tslint 'src/**/*.ts' --force",
+    "lint:fix": "tslint 'src/**/*.ts' --fix --force",
+    "clean": "rimraf dist",
+    "swagger-gen": "tsoa swagger",
+    "routes-gen": "tsoa routes",
+    
+    "copy-swagger-ui": "ncp ./src/swagger-ui ./dist/swagger-ui",
+    "tsoa": "tsoa"
+  },
+  "author": "Murat onur Karadeniz mokosam@gmail.com",
+  "license": "MIT",
+  "dependencies": {
+    "@types/node": "^6.0.71",
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "method-override": "^2.3.6",
+    "mysql": "^2.13.0",
+    "reflect-metadata": "^0.1.10",
+    "tsoa": "^1.0.0",
+    "typeorm": "0.0.11"
+  },
+  "devDependencies": {
+    "@types/body-parser": "0.0.30",
+    "@types/express": "^4.0.30",
+    "@types/method-override": "0.0.27",
+    "@types/node": "^6.0.33",
+    "ncp": "^2.0.0",
+    "rimraf": "^2.5.2",
+    "tslint": "4.5.1",
+    "tslint-loader": "3.5.2",
+    "typescript": "2.3.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zinderud/NodeTypeAng"
+  }
+}
