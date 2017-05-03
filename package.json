@@ -4,7 +4,9 @@
   "description": "node ve typescrit ve typeorm ile hızlı ve güvenilir prototip üretmek",
   "scripts": {
     "start": "npm run build && node ./dist/server.js",
-    "build": "npm run clean  && npm run swagger-gen && npm run routes-gen && tsc && npm run copy-swagger-ui",
+    "build": "npm run clean && tslint 'src/**/*.ts' --fix --force && npm run swagger-gen && npm run routes-gen && tsc && npm run copy-swagger-ui",
+    "lint": "tslint 'src/**/*.ts' --force",
+    "lint:fix": "tslint 'src/**/*.ts' --fix --force",
     "clean": "rimraf dist",
     "swagger-gen": "tsoa swagger",
     "routes-gen": "tsoa routes",

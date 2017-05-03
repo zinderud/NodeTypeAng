@@ -1,12 +1,12 @@
-import { Table, Column, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import { Table, Column, PrimaryColumn } from 'typeorm';
 
 @Table()
 export class User {
-    @PrimaryColumn("int", { generated: true })
+    @PrimaryColumn('int', { generated: true })
     id: number;
 
-    @Column("text")
+    @Column('text')
     namel: string;
-    @Column("text")
+    @Column('text')
     email: string;
 }

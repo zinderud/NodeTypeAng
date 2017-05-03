@@ -1,5 +1,5 @@
 
-export   class ConfigProvider 
+export   class ConfigProvider
 {
   public static   type  = 'mysql';
   public  static  host  = 'localhost';

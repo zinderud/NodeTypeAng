@@ -1,19 +1,19 @@
 
 import './controllers/usersController';
-import "reflect-metadata";
+import 'reflect-metadata';
 import * as bodyParser from 'body-parser';
 import * as express from 'express';
 import * as methodOverride from 'method-override';
 import { RegisterRoutes } from './routes';
 import { ConfigProvider } from './ConfigProvider';
 import { User } from './models/user';
-import { createConnection } from 'typeorm'
+import { createConnection } from 'typeorm';
 class Startup{
   public server ()
   {
       let config : any = ConfigProvider;
 
-      // create database connection 
+      // create database connection
       createConnection({
                   driver: {
                     type: config.type,
@@ -33,7 +33,7 @@ class Startup{
   }
 
 private startExpressServer(){
- 
+
       const app = express();
 app.use('/docs', express.static(__dirname + '/swagger-ui'));
 app.use('/swagger.json', (req, res) => {
@@ -51,5 +51,5 @@ console.log('Starting server on port 3000...');
 app.listen(3000);
 }
  }
- let startup = new Startup(); 
+ let startup = new Startup();
 startup.server();
