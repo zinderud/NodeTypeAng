@@ -1,65 +1,73 @@
 import { Route, Get, Post, Delete, Patch, Body } from 'tsoa';
 import { User } from '../models/user';
-import { getConnectionManager, Repository, } from 'typeorm';
+import { Repository, getEntityManager } from 'typeorm';
+import { Application } from '../lib/application';
 
 @Route('Users')
 export class UsersController {
 
-    private uRepo: Repository<User>;
+    private  static  _entityManager: Repository<User>;
+   private static statusCode= '200';
 
     constructor() {
-        this.uRepo = getConnectionManager().get().getRepository(User);
+        // this.uRepo = getConnectionManager().get().getRepository(User);
+        throw Error('Cannot be intantiated');
     }
+
+    /**
+     * Return Repository Manager for Product Entity
+     */
+    private static  db(): Repository<User> {
+        let conn = Application.connectionName;
+        return this._entityManager || (this._entityManager = getEntityManager(conn).getRepository(User));
+    }
+
 
     /** Get users*/
     @Get('{Getusers}')
-    public async GetUsers(): Promise<User[]> {
-        return this.uRepo.find();
+    public static  async GetUsers(): Promise<User[]> {
+        return await this.db().find();
     }
 
     /** Get user by ID */
-    @Get('{userId}')
-    public async Get(userId: number): Promise<User> {
+    @Get('{id}')
+    public static  async getById(id: number): Promise<User> {
 
-        return this.uRepo.findOneById(userId);
+        return await this.db().findOneById(id);
     }
 
     /**
      * Create a user
-     * @param request This is a user creation request description
-     */
+      */
     @Post()
-    public async Create( @Body() request: User): Promise<User> {
+    public static  async Create( @Body() request: User): Promise<User> {
         const cus = new User();
         cus.namel = request.namel;
         cus.email = request.email;
         // this.create(cus)
-        this.uRepo.persist(cus);
+        this.db().persist(cus);
         return cus;
     }
 
+    @Delete('{id}')
+    public static  async Delete(id: number): Promise<number> {
 
-    /** Delete a user by ID */
-    @Delete('{userId}')
-    public async Delete(userId: number): Promise<void> {
-        let cins = new User();
-        let sil = this.uRepo.findOneById(userId).then(u => {
-            cins.email = u.email;
-            cins.namel = u.namel;
-            cins.id = u.id;
-        });
-        this.uRepo.remove(cins);
-
+  let item = await this.getById(id);
+        await this.db().remove(item);
+        return id;
 
     }
 
     /** Update a user */
     @Patch()
-    public async Update( @Body() request: User): Promise<User> {
+    public  static async Update( @Body() request: User): Promise<User> {
         const cus = new User();
         cus.namel = request.namel;
         cus.email = request.email;
-        this.uRepo.persist(cus);
+        this.db().persist(cus);
         return cus;
+    }
+  public  static   getStatus(){
+
     }
 }

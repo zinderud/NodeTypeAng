@@ -1,55 +1,25 @@
 
 import './controllers/usersController';
 import 'reflect-metadata';
-import * as bodyParser from 'body-parser';
-import * as express from 'express';
-import * as methodOverride from 'method-override';
-import { RegisterRoutes } from './routes';
-import { ConfigProvider } from './ConfigProvider';
-import { User } from './models/user';
-import { createConnection } from 'typeorm';
-class Startup{
-  public server ()
-  {
-      let config : any = ConfigProvider;
 
-      // create database connection
-      createConnection({
-                  driver: {
-                    type: config.type,
-                    host: config.host,
-                    port: config.post,
-                    database: config.database,
-                    username: config.username,
-                    password: config.password
-                  },
-                  entities: [
-                    User
-                  ],
-                  autoSchemaSync: true,
-                }) .then(() => {
-                     this.startExpressServer();
-                  });
-  }
+import { argv } from 'yargs';
+import { Application, ApplicationOptions } from './lib/application';
 
-private startExpressServer(){
+// Hostname to serve application on
+const HOST = argv.host || '127.0.0.1';
 
-      const app = express();
-app.use('/docs', express.static(__dirname + '/swagger-ui'));
-app.use('/swagger.json', (req, res) => {
-    res.sendFile(__dirname + '/swagger.json');
-});
+// Port to serve application on
+const PORT = argv.port || 1337;
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(methodOverride());
+// Application options
+const options: ApplicationOptions = {
+    connectionName: argv['connection-name'] || 'file-db',
+    logLevel: argv['leg-level'] || 'debug',
+};
 
-RegisterRoutes(app);
-
-/* tslint:disable-next-line */
-console.log('Starting server on port 3000...');
-app.listen(3000);
-}
- }
- let startup = new Startup();
-startup.server();
+// Start Application
+Application.getApp(options).then(app => {
+    app.listen(PORT, HOST, () => {
+        Application.logger.info(`Serving on http://${HOST}:${PORT}`);
+    });
+}).catch(e => Application.logger.error(e));

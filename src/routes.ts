@@ -1,7 +1,7 @@
 /* tslint:disable */
 import { ValidateParam } from 'tsoa';
 import { Controller } from 'tsoa';
-import { UsersController } from './controllers/usersController';
+import { UsersController as controller } from './controllers/usersController';
 
 const models: any = {
     "User": {
@@ -26,20 +26,20 @@ export function RegisterRoutes(app: any) {
                 return next(err);
             }
 
-            const controller = new UsersController();
+
 
 
             const promise = controller.GetUsers.apply(controller, validatedArgs);
             let statusCode = undefined;
             if (controller instanceof Controller) {
-                statusCode = (controller as Controller).getStatus();
+                statusCode = controller.getStatus();
             }
             promiseHandler(promise, statusCode, response, next);
         });
-    app.get('/v1/Users/:userId',
+    app.get('/v1/Users/:id',
         function(request: any, response: any, next: any) {
             const args = {
-                userId: { "in": "path", "name": "userId", "required": true, "typeName": "double" },
+                id: { "in": "path", "name": "id", "required": true, "typeName": "double" },
             };
 
             let validatedArgs: any[] = [];
@@ -49,13 +49,13 @@ export function RegisterRoutes(app: any) {
                 return next(err);
             }
 
-            const controller = new UsersController();
 
 
-            const promise = controller.Get.apply(controller, validatedArgs);
+
+            const promise = controller.getById.apply(controller, validatedArgs);
             let statusCode = undefined;
             if (controller instanceof Controller) {
-                statusCode = (controller as Controller).getStatus();
+                statusCode = controller.getStatus();
             }
             promiseHandler(promise, statusCode, response, next);
         });
@@ -72,20 +72,20 @@ export function RegisterRoutes(app: any) {
                 return next(err);
             }
 
-            const controller = new UsersController();
+
 
 
             const promise = controller.Create.apply(controller, validatedArgs);
             let statusCode = undefined;
             if (controller instanceof Controller) {
-                statusCode = (controller as Controller).getStatus();
+                statusCode = controller.getStatus();
             }
             promiseHandler(promise, statusCode, response, next);
         });
-    app.delete('/v1/Users/:userId',
+    app.delete('/v1/Users/:id',
         function(request: any, response: any, next: any) {
             const args = {
-                userId: { "in": "path", "name": "userId", "required": true, "typeName": "double" },
+                id: { "in": "path", "name": "id", "required": true, "typeName": "double" },
             };
 
             let validatedArgs: any[] = [];
@@ -95,13 +95,13 @@ export function RegisterRoutes(app: any) {
                 return next(err);
             }
 
-            const controller = new UsersController();
+
 
 
             const promise = controller.Delete.apply(controller, validatedArgs);
             let statusCode = undefined;
             if (controller instanceof Controller) {
-                statusCode = (controller as Controller).getStatus();
+                statusCode = controller.getStatus();
             }
             promiseHandler(promise, statusCode, response, next);
         });
@@ -118,13 +118,13 @@ export function RegisterRoutes(app: any) {
                 return next(err);
             }
 
-            const controller = new UsersController();
+
 
 
             const promise = controller.Update.apply(controller, validatedArgs);
             let statusCode = undefined;
             if (controller instanceof Controller) {
-                statusCode = (controller as Controller).getStatus();
+                statusCode = controller.getStatus();
             }
             promiseHandler(promise, statusCode, response, next);
         });
