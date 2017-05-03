@@ -27,10 +27,10 @@ export class UsersController {
     @Post()
     public async Create(@Body() request: User): Promise<User> {
            var service=new UserService();
-           var isuer:User;
+        /*   var isuer:User;
            isuer.namel=request.namel;
-           isuer.email=request.email;
-        return  service.newUser(isuer)
+           isuer.email=request.email;*/
+        return  service.newUser(request)
     }
      
 
