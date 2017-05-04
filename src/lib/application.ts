@@ -5,7 +5,7 @@ import { RegisterRoutes } from './../routes';
 import * as bodyParser from 'body-parser';
 import * as typeorm from 'typeorm';
 import * as bunyan from 'bunyan';
-import { join , } from 'path';
+import { join, } from 'path';
 import { HttpError, NotFound, InternalServerError } from 'http-errors';
 import { Express, Request, Response, NextFunction } from 'express';
 
@@ -65,20 +65,16 @@ export class Application {
 
                 // Express Application
                 this._app = express();
-            /*    this._app.use(bodyParser.json());*/
+                /*    this._app.use(bodyParser.json());*/
 
-             this._app.use(bodyParser.urlencoded({ extended: true }));
-                    this._app.use(bodyParser.json());
-                    this._app.use(methodOverride());
-     // swagger
-
-                           
-      this._app.use('/docs', express.static( __dirname + '/swagger-ui'));
-                this._app.use( '/swagger.json', (req, res) => {
-                    res.sendFile( __dirname + '/swagger.json');
+                this._app.use(bodyParser.urlencoded({ extended: true }));
+                this._app.use(bodyParser.json());
+                this._app.use(methodOverride());
+                // swagger 
+                this._app.use('/docs', express.static(__dirname + '/swagger-ui'));
+                this._app.use('/swagger.json', (req, res) => {
+                    res.sendFile(__dirname + '/swagger.json');
                 });
-
- ;
 
 
                 // Apply routes from modules
