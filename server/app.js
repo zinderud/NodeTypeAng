@@ -45,6 +45,8 @@ if(isProduction){
 
 require('./models/User');
 require('./lib/passport');
+require('./models/Article');
+require('./models/Comment');
 //routes
 app.use(require('./routes'));
 //hata
