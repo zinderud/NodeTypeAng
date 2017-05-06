@@ -8,8 +8,10 @@ var fs = require('fs'),
     cors = require('cors'),
     passport = require('passport'),
     errorhandler = require('errorhandler'),
-    mongoose = require('mongoose');
-
+    mongoose = require('mongoose'),
+    swaggerRouteJson=require('./routes/swagger'),
+    swaggerRoute=require('./routes/swagger-ui');
+ 
     var isProduction = process.env.NODE_ENV === 'production';
 
 //Global expressi oluştur
@@ -22,8 +24,10 @@ app.use(bodyParser.json());
 app.use(require('method-override')());
 //static erişim
 app.use(express.static(__dirname + '/public'));
+app.use(express.static(path.join(__dirname, '/api-docs')));
 //todo: swagger uı 
-
+app.use(swaggerRouteJson());
+app.use(swaggerRoute());
 //session opt.
 app.use(session({ secret: 'NodeAng', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false  }));
 
@@ -45,7 +49,7 @@ require('./lib/passport');
 app.use(require('./routes'));
 //hata
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
+  var err = new Error('Notr Found');
   err.status = 404;
   next(err);
 });
